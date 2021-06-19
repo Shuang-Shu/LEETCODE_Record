@@ -1,0 +1,44 @@
+class Solution(object):
+    def maxLength(self, arr):
+        def backtrack(maxLen, loc):
+            if maxLen>res[0]:
+                res[0]=maxLen
+            
+            for i in range(loc, len(arr)):
+                temp=0
+                tempDict={}
+                ifRepeat=0
+                #print('a', dict)
+                for j in range(len(arr[i])):
+                    if arr[i][j] in tempDict:
+                        ifRepeat=1
+                        break
+                    else:
+                        tempDict[arr[i][j]]=1
+                if ifRepeat==0:
+                    for j in range(len(arr[i])):
+                        if arr[i][j] in dict:
+                            ifRepeat=1
+                if ifRepeat==1:
+                    continue
+                else:
+                    dict.update(tempDict)
+                #print('b', dict)
+                temp+=len(arr[i])
+                backtrack(maxLen+temp, i+1)
+                if ifRepeat==0:
+                    for j in range(len(arr[i])):
+                        dict.pop(arr[i][j])
+
+        res=[0]
+        dict={}
+        backtrack(0, 0)
+        return res[0]
+
+x=['a']
+#x=['a','b', 'c', 'd', 'e', 'f', 'g', 'h']
+#x=["un","iq","ue"]
+#x=["cha","r","act","ers"]
+#x=['abcdefghijklm', 'bcdefg','nopqrstuvwxyz']
+solu=Solution()
+print(solu.maxLength(x))
