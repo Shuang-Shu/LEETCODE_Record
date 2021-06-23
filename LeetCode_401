@@ -1,0 +1,43 @@
+class Solution(object):
+    def readBinaryWatch(self, turnedOn):
+        def transform(bitset):
+            hour=0
+            minute=0
+            res=[]
+            for i in range(4):
+                hour+=bitset[i]*2**i
+            for i in range(4, 10):
+                minute+=bitset[i]*2**(i-4)
+            res.append(str(hour))
+            res.append(':')
+            if minute>=10:
+                res.append(str(minute))
+            else:
+                res.append("0")
+                res.append(str(minute))
+            return res
+        def ifLegal(bitset):
+            hour=0
+            minute=0
+            for i in range(4):
+                hour+=bitset[i]*2**i
+            for i in range(4, 10):
+                minute+=bitset[i]*2**(i-4)
+            if hour>12 or minute>60:
+                return False
+            return True
+        def backTrack(bitset, k, loc):
+            if ifLegal(bitset)==False:
+                return
+            if k==0 and ifLegal(bitset)==True:
+                res.append(bitset[:])
+            for i in range(loc, 10):
+                bitset[i]=1
+                backTrack(bitset, k-1, i+1)
+                bitset[i]=0
+        bitset=[0,0,0,0,0,0,0,0,0,0]
+        res=[]
+        backTrack(bitset, turnedOn, 0)
+        for i in range(len(res)):
+            res[i]=''.join(transform(res[i]))
+        return res
